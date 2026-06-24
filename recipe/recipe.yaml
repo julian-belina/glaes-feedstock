@@ -1,0 +1,56 @@
+schema_version: 1
+
+context:
+  name: glaes
+  version: "1.5.0"
+  python_min: "3.10"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  # NOTE: upstream tagged this release "v.1.5.0" (with a dot after the v),
+  # so the archive path is "v.${{ version }}", not "v${{ version }}".
+  url: https://github.com/FZJ-IEK3-VSA/glaes/archive/v.${{ version }}.tar.gz
+  sha256: 1057df10fd84fc3c24bc5db9cf44917652e53b01ca2c5b7688b86b4f602d8990
+
+build:
+  number: 0
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - hatchling
+  run:
+    - python >=${{ python_min }},<=3.13.9
+    - jupyter <=1.1.1
+    - matplotlib <=3.10.5
+    - pandas >=1.4.0,<=3.0.3
+    - numpy >=1.26.0,<=2.5.0
+    - scipy >=1.10.0,<1.18.0
+    - geokit >=1.7.1,<=1.9.0
+
+tests:
+  - python:
+      imports:
+        - glaes
+      pip_check: true
+      python_version: ${{ python_min }}.*
+
+about:
+  homepage: https://github.com/FZJ-IEK3-VSA/glaes
+  repository: https://github.com/FZJ-IEK3-VSA/glaes
+  documentation: https://glaes.readthedocs.io/
+  summary: Geospatial Land Availability for Energy Systems.
+  license: MIT
+  license_file: LICENSE.txt
+
+extra:
+  recipe-maintainers:
+    - julian-belina
+    - chrisjwin
+    - phil-fzj
