@@ -35,11 +35,16 @@ requirements:
     - geokit >=1.7.1,<=1.9.0
 
 tests:
-  - python:
-      imports:
-        - glaes
-      pip_check: true
-      python_version: ${{ python_min }}.*
+- script:
+    - pytest -n auto -vvv
+  requirements:
+      run:
+        - pytest
+        - pytest-xdist
+        - python ${{ python_min }}.*
+  files:
+      source:
+        - .
 
 about:
   homepage: https://github.com/FZJ-IEK3-VSA/glaes
